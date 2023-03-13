@@ -1,12 +1,14 @@
 <?php
 
-use App\Http\Controllers\AdminCategoryController;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\DashboardPostsController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Dashboard\AdminCategoryController;
+use App\Http\Controllers\Dashboard\DashboardPostsController;
+use App\Http\Controllers\Dashboard\LandingDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,18 +21,14 @@ use App\Http\Controllers\DashboardPostsController;
 |
 */
 
-Route::get('/', function () {
-    return view('home', [
-        "title" => "Home",
-    ]);
-});
+Route::get('/', [HomeController::class, 'index']);
+Route::get('/home', [HomeController::class, 'search'])->name('home.search');
+Route::get('/home/post/detail/{posts:slug}', [HomeController::class, 'detail']);
 
 Route::get('/about', function () {
-    return view('about', [
-        "title" => "About",
+    return view('pages.users.about', [
         "name" => "Ahmad Zuhril",
         "email" => "zuhrilfahrizal87@gmail.com",
-        "image" => "zuhril.jfif"
     ]);
 });
 
@@ -38,8 +36,7 @@ Route::get('/blog', [PostController::class, 'index']);
 Route::get('posts/{post:slug}', [PostController::class, 'show']);
 
 Route::get('/categories', function () {
-    return view('categories', [
-        'title' => 'Post Categories',
+    return view('pages.users.categories', [
         'categories' => Category::all()
     ]);
 });
@@ -48,33 +45,16 @@ Route::get('/login', [LoginController::class, 'index'])->name('login')->middlewa
 Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/logout', [LoginController::class, 'logout']);
 
-
 Route::get('/register', [RegisterController::class, 'index'])->middleware('guest');
 Route::post('/register', [RegisterController::class, 'store']);
 
-Route::get('/dashboard', function () {
-    return view('dashboard.index');
-})->middleware('auth');
+Route::get('/dashboard', [LandingDashboardController::class, 'index'])->middleware('auth');
 
-Route::get('/dashboard/posts/checkSlug', [DashboardPostsController::class, 'checkSlug'])->middleware('auth');
+Route::name('dashboard.')->prefix('dashboard')->middleware(['auth:web'])->group(function() {
+    // function route helper
+    Route::get('/posts/checkSlug', [DashboardPostsController::class, 'checkSlug'])->name('posts.checkSlug');
 
-Route::resource('/dashboard/posts', DashboardPostsController::class)->middleware('auth');
-
-Route::resource('/dashboard/categories', AdminCategoryController::class)->except('show')->middleware('admin');
-
-
-
-// Route::get('/categories/{category:slug}', function (Category $category) {
-//     return view('posts', [
-//         'title' => "Post Categories : $category->name",
-//         'posts' => $category->posts->load('author', 'category'),
-//         // 'category' => $category->name
-//     ]);
-// });
-
-// Route::get('/authors/{author:username}', function (User $author) {
-//     return view('posts', [
-//         'title' => "Post By Author : $author->name",
-//         'posts' => $author->posts->load('category', 'author')
-//     ]);
-// });
+    // resource route
+    Route::resource('posts', DashboardPostsController::class)->middleware('auth');
+    Route::resource('categories', AdminCategoryController::class)->middleware('admin');
+});

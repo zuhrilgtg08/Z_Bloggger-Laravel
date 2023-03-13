@@ -22,7 +22,7 @@ class PostController extends Controller
             $title = ' By ' . $author->name;
         }
 
-        return view('posts', [
+        return view('pages.users.posts', [
             "title" => "All Posts" . $title,
             // "posts" => Post::all()
             "posts" => Post::latest()->filter(request(['search', 'category', 'author']))->paginate(7)->withQueryString()
@@ -31,7 +31,7 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        return view('post', [
+        return view('pages.users.post', [
             "title" => "Single Post",
             "post" => $post
         ]);
