@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use \Cviebrock\EloquentSluggable\Services\SlugService;
+
 
 class AdminCategoryController extends Controller
 {
@@ -14,11 +16,10 @@ class AdminCategoryController extends Controller
      */
     public function index()
     {
-        // if (auth()->guest() || auth()->user()->username !== 'zuhrilFahrizal') {
-        //     abort(403);
-        // }
+        if (auth()->guest() || auth()->user()->is_admin !== true) {
+            abort(403);
+        }
 
-        // $this->authorize('admin');
         return view('pages.admin.categories.index', [
             'categories' => Category::all()
         ]);
@@ -31,7 +32,7 @@ class AdminCategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.admin.categories.create');
     }
 
     /**
@@ -42,7 +43,14 @@ class AdminCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validateData = $request->validate([
+            'name' => 'required|string|unique:categories',
+            'slug' => 'required|unique:categories'
+        ]);
+
+        Category::create($validateData);
+
+        return redirect()->route('dashboard.categories.index')->with('success', 'New Category Has Been Added!');
     }
 
     /**
@@ -64,7 +72,9 @@ class AdminCategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('pages.admin.categories.edit', [
+            'category' => $category
+        ]);
     }
 
     /**
@@ -76,7 +86,18 @@ class AdminCategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $rules = [
+            'name' => 'required|string|unique:categories'
+        ];
+
+        if ($request->slug != $category->slug) {
+            $rules['slug'] = 'required|unique:categories';
+        }
+
+        $validateData = $request->validate($rules);
+
+        Category::where('id', $category->id)->update($validateData);
+        return redirect()->route('dashboard.categories.index')->with('success', 'Category Has Been Updated!');
     }
 
     /**
@@ -87,6 +108,13 @@ class AdminCategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        Category::destroy($category->id);
+        return redirect()->route('dashboard.categories.index')->with('success', 'Category Has Been Deleted!');
+    }
+
+    public function checkSlug(Request $request)
+    {
+        $slug = SlugService::createSlug(Category::class, 'slug', $request->name);
+        return response()->json(['slug' => $slug]);
     }
 }

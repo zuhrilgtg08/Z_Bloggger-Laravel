@@ -6,7 +6,7 @@
                 href="/dashboard"><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                 Dashboard
             </a>
-            <div class="sb-sidenav-menu-heading">Master Menu</div>
+            <div class="sb-sidenav-menu-heading">Menu</div>
             <a class="nav-link {{ isset($sbMaster) && $sbMaster === true ? '' : 'collapsed'}}" href="#" data-bs-toggle="collapse" 
                 data-bs-target="#collapseLayouts" aria-expanded="{{ isset($sbMaster) && $sbMaster === true ? 'true' : 'false'}}"
                 aria-controls="collapseLayouts">

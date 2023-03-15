@@ -81,7 +81,7 @@
                 event.preventDefault();
                 Swal.fire({
                     title: 'Sudah Yakin?',
-                    text: "Anda Yakin Dengan Post Anda!",
+                    text: "Simpan Data Postingan Anda!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -109,7 +109,6 @@
         document.addEventListener('trix-file-accept', function(e) {
             e.preventDefault();
         })
-
 
         function previewImage(){
             const image = document.querySelector('#image');

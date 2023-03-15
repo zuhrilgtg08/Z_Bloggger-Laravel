@@ -17,7 +17,7 @@ class UserFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'username' => $this->faker->unique()->userName(),
-            'email' => $this->faker->unique()->safeEmail(),
+            'email' => $this->faker->unique()->freeEmail(),
             'email_verified_at' => null,
             'password' => bcrypt('guest123'),
             'remember_token' => null,

@@ -53,6 +53,10 @@ Route::get('/dashboard', [LandingDashboardController::class, 'index'])->middlewa
 Route::name('dashboard.')->prefix('dashboard')->middleware(['auth:web'])->group(function() {
     // function route helper
     Route::get('/posts/checkSlug', [DashboardPostsController::class, 'checkSlug'])->name('posts.checkSlug');
+    Route::get('/categories/checkSlug', [AdminCategoryController::class, 'checkSlug'])->name('categories.checkSlug');
+    Route::get('/account/setting/{users:id}', [LandingDashboardController::class, 'edit'])->name('account.setting');
+    Route::put('/account/setting/{users:id}', [LandingDashboardController::class, 'update'])->name('account.update');
+    Route::put('/account/setting/changes_password/{users:id}', [LandingDashboardController::class, 'updatePassword'])->name('account.change');
 
     // resource route
     Route::resource('posts', DashboardPostsController::class)->middleware('auth');

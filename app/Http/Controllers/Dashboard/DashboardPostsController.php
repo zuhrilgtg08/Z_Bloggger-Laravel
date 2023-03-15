@@ -48,7 +48,7 @@ class DashboardPostsController extends Controller
         $validatedData = $request->validate([
             'title' => 'required|max:255',
             'slug' => 'required|unique:posts',
-            'image' => 'image|file|max:1024',
+            'image' => 'image|file|max:2048',
             'category_id' => 'required',
             'body' => 'required'
         ]);
@@ -62,7 +62,7 @@ class DashboardPostsController extends Controller
 
         Post::create($validatedData);
 
-        return redirect('/dashboard/posts')->with('success', 'New Post has been added !');
+        return redirect()->route('dashboard.posts.index')->with('success', 'New Post has been added !');
     }
 
     /**
@@ -104,7 +104,7 @@ class DashboardPostsController extends Controller
         $rules = [
             'title' => 'required|max:255',
             'category_id' => 'required',
-            'image' => 'image|file|max:1024',
+            'image' => 'image|file|max:2048',
             'body' => 'required'
         ];
 
@@ -124,10 +124,9 @@ class DashboardPostsController extends Controller
         $validatedData['user_id'] = auth()->user()->id;
         $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 100);
 
-        Post::where('id', $post->id)
-            ->update($validatedData);
+        Post::where('id', $post->id)->update($validatedData);
 
-        return redirect('/dashboard/posts')->with('success', 'Post has been Updated!');
+        return redirect()->route('dashboard.posts.index')->with('success', 'Post has been Updated!');
     }
 
     /**
@@ -143,7 +142,7 @@ class DashboardPostsController extends Controller
         }
 
         Post::destroy($post->id);
-        return redirect('/dashboard/posts')->with('success', 'Post has been deleted');
+        return redirect()->route('dashboard.posts.index')->with('success', 'Post has been deleted!');
     }
 
     public function checkSlug(Request $request)

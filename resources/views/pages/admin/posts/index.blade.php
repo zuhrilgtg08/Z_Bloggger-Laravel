@@ -5,7 +5,7 @@
         <li class="breadcrumb-item"><a href="/dashboard" class="text-decoration-none text-dark">Dashboard</a></li>
         <li class="breadcrumb-item active">Data Posts</li>
     </ol>
-    <div class="row justify-content-center">
+    <div class="row">
         <div class="col-md-6 my-2">
             @if (session()->has('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -28,7 +28,7 @@
                 <div class="card-body">
                     <table id="datatablesSimple" class="table table-bordered table-striped">
                         <thead>
-                            <tr>
+                            <tr>    
                                 <th>No</th>
                                 <th>Title</th>
                                 <th>Category</th>
@@ -46,9 +46,9 @@
                                         <a href="{{ route('dashboard.posts.show', $post->slug) }}" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i></a>
                                         <a href="{{ route('dashboard.posts.edit', $post->slug) }}" class="btn btn-success"><i class="fa-solid fa-pen-to-square"></i></a>
                                         <form action="{{ route('dashboard.posts.destroy', $post->slug) }}" method="POST" class="d-inline">
-                                            @method('delete')
+                                            @method('DELETE')
                                             @csrf
-                                            <button class="btn btn-danger" onclick="return confirm('Are You Sure?')"><i class="fa-solid fa-trash"></i></button>
+                                            <button class="btn btn-danger sweet-delete" type="button"><i class="fa-solid fa-trash"></i></button>
                                         </form>
                                     </td>
                                 </tr>
@@ -59,4 +59,30 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script>
+        $(document).ready(function () {
+            $('.sweet-delete').click(function(event) {
+                var form = $(this).closest("form");
+                event.preventDefault();
+                Swal.fire({
+                    title: 'Yakin Hapus?',
+                    text: "Ingin Menghapus Postingan Ini!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Confirm'
+                }).then((result) => {
+                    setTimeout(() => {
+                        if(result.isConfirmed) {
+                            form.submit();
+                        }
+                    }, 100);
+                });
+            });
+        });
+    </script>
 @endsection
