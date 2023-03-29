@@ -15,6 +15,7 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
+            $table->uuid();
             $table->foreignId('category_id');
             $table->foreignId('user_id');
             $table->string('title');
@@ -24,6 +25,7 @@ class CreatePostsTable extends Migration
             $table->text('body');
             $table->timestamp('publish_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

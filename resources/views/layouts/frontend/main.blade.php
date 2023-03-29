@@ -6,10 +6,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Bootstrap CSS -->
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
-        <!-- bootsrap-icon-->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+        
         <!-- my style -->
         <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+
+        @yield('styles')
 
         <!-- Favicon -->
         <link rel="icon" href="{{ asset('images/blogging.png') }}" />
@@ -30,6 +31,8 @@
         <!-- Option 1: Bootstrap Bundle with Popper -->
         <script src="{{ asset('js/jquery-3.6.3.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('js/all.js') }}"></script>
+        <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
         @yield('script')
     </body>
 </html>

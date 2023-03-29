@@ -71,10 +71,10 @@ class DashboardPostsController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show($id)
     {
         return view('pages.admin.posts.show', [
-            'post' => $post
+            'post' => Post::findOrFail($id)
         ]);
     }
 
@@ -84,10 +84,10 @@ class DashboardPostsController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit($id)
     {
         return view('pages.admin.posts.edit', [
-            'post' => $post,
+            'post' => Post::findOrFail($id),
             'categories' => Category::all()
         ]);
     }
@@ -99,8 +99,10 @@ class DashboardPostsController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $id)
     {
+        $post = new Post();
+
         $rules = [
             'title' => 'required|max:255',
             'category_id' => 'required',
@@ -124,7 +126,7 @@ class DashboardPostsController extends Controller
         $validatedData['user_id'] = auth()->user()->id;
         $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 100);
 
-        Post::where('id', $post->id)->update($validatedData);
+        Post::where('id', $id)->update($validatedData);
 
         return redirect()->route('dashboard.posts.index')->with('success', 'Post has been Updated!');
     }

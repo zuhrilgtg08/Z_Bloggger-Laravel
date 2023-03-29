@@ -15,7 +15,12 @@
           <span class="mr-2 d-none d-lg-inline text-white-600 small"> Welcomeback,
             {{ auth()->user()->name }}</span>
 
-          <i class="fas fa-fw fa-user fa-fw"></i>
+            @if (auth()->user()->image)
+              <img src="{{ asset('storage/' . auth()->user()->image) }}" alt="profile" class="rounded-circle"
+                style="height: 30px; width: 35px;"/>
+            @else
+              <i class="fas fa-fw fa-user fa-fw"></i>
+            @endif
       </a>
       <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
         <li><a class="dropdown-item" href="/"><i class="fas fa-fw fa-home"></i> Home</a></li>

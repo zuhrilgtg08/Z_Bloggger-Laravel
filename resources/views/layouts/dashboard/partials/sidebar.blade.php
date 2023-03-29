@@ -20,7 +20,14 @@
                         href="{{ route('dashboard.posts.index') }}"><div class="sb-nav-link-icon"><i class="fa-solid fa-folder"></i></div> Data Posts</a>
                     @can('admin')
                     <a class="nav-link {{ isset($sbActive) && $sbActive === 'master.categories' ? 'active' : '' }}" 
-                        href="{{ route('dashboard.categories.index') }}"><div class="sb-nav-link-icon"><i class="fa-solid fa-layer-group"></i></div> Data Categories</a>
+                        href="{{ route('dashboard.categories.index') }}"><div class="sb-nav-link-icon"><i class="fa-solid fa-layer-group"></i></div> Data Categories
+                    </a>
+                    <a class="nav-link {{ isset($sbActive) && $sbActive === 'master.rating' ? 'active' : '' }}"
+                        href=""><div class="sb-nav-link-icon"><i class="fa-solid fa-heart"></i></div> Data Ratings
+                    </a>
+                    <a class="nav-link {{ isset($sbActive) && $sbActive === 'master.users' ? 'active' : '' }}" 
+                        href=""><div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div> Data Users
+                    </a>
                     @endcan
                 </nav>
             </div>

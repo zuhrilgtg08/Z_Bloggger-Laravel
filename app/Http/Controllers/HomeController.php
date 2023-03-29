@@ -6,6 +6,8 @@ use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Models\RatingComments;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -81,7 +83,7 @@ class HomeController extends Controller
                                         </small>
                                     </p>
                                     <p class='card-text'>$item->excerpt</p>
-                                    <a href='/home/post/detail/$item->slug' class='btn btn-primary'>Detail</a>
+                                    <a href='/home/post/detail/$item->id' class='btn btn-primary'>Detail</a>
                                 </div>
                             </div>
                         </div>
@@ -109,10 +111,43 @@ class HomeController extends Controller
         }
     }
 
-    public function detail(Post $post)
+    public function detail($id)
     {
+        $data = Post::where('id', $id)->first();
+
+        if(Auth::guest()) {
+            $reviews = RatingComments::where('post_id', $id)->get();
+        } else {
+            $reviews = RatingComments::where('post_id', $id)
+                    ->where('user_id', Auth::user()->id)->get();
+        }
+
         return view('pages.users.landing_home.detail', [
-            'data' => $post
+            'data' => $data,
+            'reviews' => $reviews
         ]);
+    }
+
+    public function ratingComment(Request $request)
+    {
+        $reviews = RatingComments::where('user_id', Auth::user()->id)
+            ->where('post_id', $request->post_id)->first();
+
+        if ($reviews !== null) {
+            $reviews->update([
+                'comment' => $request->comment,
+                'like_value' => $request->rating
+            ]);
+            return redirect()->back()->with('success', 'Rating berhasil diupdate!');
+        } else {
+            $reviews = RatingComments::create([
+                'post_id' => $request->post_id,
+                'user_id' => Auth::user()->id,
+                'comment' => $request->comment,
+                'like_value' => $request->rating
+            ]);
+
+            return redirect()->back()->with('success', 'Rating berhasil ditambahkan!');
+        }
     }
 }

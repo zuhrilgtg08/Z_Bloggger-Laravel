@@ -4,9 +4,9 @@
         <div class="col-lg-9">
             <a href="{{ route('dashboard.posts.index') }}" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i> Kembali</a>
             <div class="col-lg float-end mb-3">
-                <a href="{{ route('dashboard.posts.edit', $post->slug) }}" class="btn btn-success"><i
+                <a href="{{ route('dashboard.posts.edit', $post->id) }}" class="btn btn-success"><i
                         class="fa-solid fa-pen-to-square"></i> Edit Post</a>
-                <form action="{{ route('dashboard.posts.destroy', $post->slug) }}" method="POST" class="d-inline">
+                <form action="{{ route('dashboard.posts.destroy', $post->id) }}" method="POST" class="d-inline">
                     @method('DELETE')
                     @csrf
                     <button class="btn btn-danger sweet-delete" type="button"><i class="fa-solid fa-trash"></i> Delete Post</button>

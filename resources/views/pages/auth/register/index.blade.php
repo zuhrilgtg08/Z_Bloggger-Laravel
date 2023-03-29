@@ -3,12 +3,10 @@
 <div class="row justify-content-center">
     <div class="col-lg-5 mt-4">
         <main class="form-registration text-center">
-            <h1 class="mb-3 fw-normal">Registration Form</h1>
+            <h3 class="mb-3 fw-normal">Registration Form</h3>
             <img class="mb-3" src="images/undraw_mobile_development_re_wwsn.svg" alt="" width="180" height="180">
-            <form action="/register" method="post">
-
+            <form action="/register" method="POST">
                 @csrf
-
                 <div class="form-floating mb-3">
                     <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Name" name="name" required value="{{ old('name') }}">
                     <label for="name">Name</label>
@@ -49,7 +47,7 @@
                     @enderror
                 </div>
 
-                <button class="w-100 btn btn-lg btn-danger mb-3" type="submit">Register Now</button>
+                <button class="w-50 btn btn-danger mb-3" type="submit">Register Now</button>
             </form>
             <small>All Ready Registered ? <a href="/login">Login</a></small>
         </main>

@@ -18,33 +18,11 @@
                 <div class="input-group mb-3 rounded">
                     <input type="text" class="form-control" name="keyword" placeholder="Search Post.." id="keyword">
                     <button class="btn btn-outline-danger" type="submit" id="search-btn">
-                        <i class="bi bi-search"></i> Search
+                        <i class="fa-solid fa-search"></i> Search
                     </button>
                 </div>
             </form>
             <h6 class="fw-normal mb-3 text-end">Total Data : <span class="total-data">0</span></h6>
-        </div>
-        <div class="col-md-8 mb-4">
-            <ul class="nav justify-content-center text-decoration-none">
-                <li class="nav-item">
-                    <a class="nav-link active btn btn-danger btn-sm text-light" href="#">Personal</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ (Request::is('design')) ? 'active btn btn-danger btn-sm text-light' : '' }}" href="#">Design</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ (Request::is('business')) ? 'active btn btn-danger btn-sm text-light' : '' }}" href="#">Business</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ (Request::is('programming')) ? 'active btn btn-danger btn-sm text-light' : '' }}">Programming</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ (Request::is('robotic')) ? 'active btn btn-danger btn-sm text-light' : '' }}">Robotic</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ (Request::is('education')) ? 'active btn btn-danger btn-sm text-light' : '' }}">Education</a>
-                </li>
-            </ul>
         </div>
     </div>
     <div class="container">
@@ -69,7 +47,7 @@
                                 </small>
                             </p>
                             <p class="card-text">{{ $data[0]->excerpt }}</p>
-                            <a href="{{ url('/home/post/detail/' . $data[0]->slug) }}" class="btn btn-primary">Detail</a>
+                            <a href="{{ url('/home/post/detail/' . $data[0]->id) }}" class="btn btn-primary">Detail</a>
                         </div>
                     </div>
                 </div>
@@ -78,7 +56,8 @@
                     <div class="col-md-4 mb-4">
                         <div class="card h-100 shadow">
                             @if ($item->image)
-                                <img src="{{ asset('storage/' . $item->image) }}" alt="default-post" class="img-fluid card-img-top" />
+                                <img src="{{ asset('storage/' . $item->image) }}" alt="default-post" class="img-fluid card-img-top" 
+                                    style="max-height: 200px; overflow: auto"/>
                             @else
                                 <img src="{{ asset('images/404.png') }}" alt="default-post" class="img-fluid card-img-top" />
                             @endif
@@ -94,7 +73,7 @@
                                     </small>
                                 </p>
                                 <p class="card-text">{{ $item->excerpt }}</p>
-                                <a href="{{ url('/home/post/detail/' . $item->slug) }}" class="btn btn-primary">Detail</a>
+                                <a href="{{ url('/home/post/detail/' . $item->id) }}" class="btn btn-primary">Detail</a>
                             </div>
                         </div>
                     </div>

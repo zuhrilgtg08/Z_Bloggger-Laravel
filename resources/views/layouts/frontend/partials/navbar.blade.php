@@ -17,10 +17,10 @@
                     <a class="nav-link {{ (Request::is('about')) ? 'active' : '' }}" href="/about">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ (Request::is('blog')) ? 'active' : '' }}" href="/blog">Explore</a>
+                    <a class="nav-link {{ (Request::is('popular')) ? 'active' : '' }}" href="/popular">Popular</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ (Request::is('categories')) ? 'active' : '' }}" href="/categories">Popular</a>
+                    <a class="nav-link {{ (Request::is('categories')) ? 'active' : '' }}" href="/categories">Categories</a>
                 </li>
             </ul>
 
@@ -29,16 +29,23 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Welcome Back, {{ auth()->user()->name }}
+
+                            @if (auth()->user()->image)
+                                <img src="{{ asset('storage/' . auth()->user()->image) }}" alt="profile" class="rounded-circle"
+                                    style="height: 40px; width: 40px;" />
+                            @else
+                                <i class="fas fa-fw fa-user fa-fw"></i>
+                            @endif
                         </a>
 
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/dashboard"><i class="bi bi-grid-3x3-gap"></i> My Dashboard</a></li>
+                            <li><a class="dropdown-item" href="/dashboard"><i class="fa-brands fa-fw fa-slack"></i> My Dashboard</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <form action="/logout" method="POST">
                                     @csrf
                                     <button type="submit" class="dropdown-item">
-                                        <i class="bi bi-box-arrow-right"></i> Logout
+                                        <i class="fas fa-fw fa-sign-out-alt"></i> Logout
                                     </button>
                                 </form>
                             </li>
@@ -46,7 +53,7 @@
                     </li>
                 @else
                     <li class="nav-item">
-                        <a href="/login" class="nav-link {{ (Request::is('login')) ? 'active' : '' }}"><i class="bi bi-person-circle"></i> Login</a>
+                        <a href="/login" class="nav-link {{ (Request::is('login')) ? 'active' : '' }}"><i class="fa-solid fa-user"></i> Login</a>
                     </li>
                 @endauth
             </ul>

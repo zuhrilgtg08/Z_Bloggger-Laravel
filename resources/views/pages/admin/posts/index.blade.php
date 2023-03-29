@@ -43,9 +43,9 @@
                                     <td>{{ $post->title }}</td>
                                     <td>{{ $post->category->name }}</td>
                                     <td>
-                                        <a href="{{ route('dashboard.posts.show', $post->slug) }}" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i></a>
-                                        <a href="{{ route('dashboard.posts.edit', $post->slug) }}" class="btn btn-success"><i class="fa-solid fa-pen-to-square"></i></a>
-                                        <form action="{{ route('dashboard.posts.destroy', $post->slug) }}" method="POST" class="d-inline">
+                                        <a href="{{ route('dashboard.posts.show', $post->id) }}" class="btn btn-primary"><i class="fa-solid fa-circle-info"></i></a>
+                                        <a href="{{ route('dashboard.posts.edit', $post->id) }}" class="btn btn-success"><i class="fa-solid fa-pen-to-square"></i></a>
+                                        <form action="{{ route('dashboard.posts.destroy', $post->id) }}" method="POST" class="d-inline">
                                             @method('DELETE')
                                             @csrf
                                             <button class="btn btn-danger sweet-delete" type="button"><i class="fa-solid fa-trash"></i></button>

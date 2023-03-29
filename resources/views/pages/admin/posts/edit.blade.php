@@ -11,7 +11,7 @@
         <div class="col-lg-8">
             <div class="card mb-4 shadow border-0">
                 <div class="card-body">
-                    <form method="POST" action="{{ route('dashboard.posts.update', $post->slug) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('dashboard.posts.update', $post->id) }}" enctype="multipart/form-data">
                         @method('put')
                         @csrf
                         <div class="row mb-3">

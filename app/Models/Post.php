@@ -2,16 +2,20 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use App\Models\Category;
+use App\Traits\Uuid as Traits;
+use App\Models\RatingComments;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
-    use HasFactory, Sluggable;
+    use HasFactory, Sluggable, Traits, SoftDeletes;
     protected $guarded = ['id'];
-    protected $with = ['category', 'author'];
+    protected $with = ['category', 'author', 'rating_comments'];
 
     public function Category()
     {
@@ -21,6 +25,11 @@ class Post extends Model
     public function author()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function rating_comments()
+    {
+        return $this->hasMany(RatingComments::class, 'post_id');
     }
 
     public function scopeFilter($query, array $filters)
@@ -45,11 +54,6 @@ class Post extends Model
                 => $query->where('username', $author)
             )
         );
-    }
-
-    public function getRouteKeyName()
-    {
-        return 'slug';
     }
 
     public function sluggable(): array
