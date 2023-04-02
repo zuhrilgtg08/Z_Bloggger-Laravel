@@ -138,7 +138,9 @@ class HomeController extends Controller
                 'comment' => $request->comment,
                 'like_value' => $request->rating
             ]);
+
             return redirect()->back()->with('success', 'Rating berhasil diupdate!');
+            
         } else {
             $reviews = RatingComments::create([
                 'post_id' => $request->post_id,
@@ -149,5 +151,10 @@ class HomeController extends Controller
 
             return redirect()->back()->with('success', 'Rating berhasil ditambahkan!');
         }
+    }
+
+    public function addBookmark(Request $request)
+    {
+        dd($request->all());
     }
 }

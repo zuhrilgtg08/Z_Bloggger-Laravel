@@ -4,12 +4,13 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Category;
-use App\Traits\Uuid as Traits;
+use App\Models\Bookmarks;
 use App\Models\RatingComments;
+use App\Traits\Uuid as Traits;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model
 {
@@ -30,6 +31,11 @@ class Post extends Model
     public function rating_comments()
     {
         return $this->hasMany(RatingComments::class, 'post_id');
+    }
+
+    public function bookmarks()
+    {
+        return $this->hasMany(Bookmarks::class, 'b_post_id');
     }
 
     public function scopeFilter($query, array $filters)

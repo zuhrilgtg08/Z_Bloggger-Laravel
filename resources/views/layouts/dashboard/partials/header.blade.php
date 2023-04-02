@@ -17,7 +17,7 @@
 
             @if (auth()->user()->image)
               <img src="{{ asset('storage/' . auth()->user()->image) }}" alt="profile" class="rounded-circle"
-                style="height: 30px; width: 35px;"/>
+                style="height: 40px; width: 40px;"/>
             @else
               <i class="fas fa-fw fa-user fa-fw"></i>
             @endif
@@ -27,15 +27,34 @@
         <li><hr class="dropdown-divider" /></li>
         <li><a class="dropdown-item" href="{{ route('dashboard.account.setting', auth()->user()->id) }}"><i class="fas fa-fw fa-wrench"></i> Settings Account</a></li>
         <li><hr class="dropdown-divider"/></li>
-        <li><a class="dropdown-item" href=""><i class="fas fa-fw fa-bookmark"></i> Favorite Posts</a></li>
-        <li><hr class="dropdown-divider"/></li>
-        <form action="/logout" method="POST" class="d-inline">
-          @csrf
-          <button type="submit" class="dropdown-item">
+        <li>
+          <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">
             <i class="fas fa-fw fa-sign-out-alt"></i> Logout
-          </button>
-        </form>
+          </a>
+        </li>
       </ul>
     </li>
   </ul>
 </nav>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure to Logout on the Dashboard page ?
+      </div>
+      <form action="/logout" method="POST">
+        @csrf
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i> Close</button>
+          <button type="submit" class="btn btn-success"><i class="fas fa-fw fa-sign-out-alt"></i> Logout</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

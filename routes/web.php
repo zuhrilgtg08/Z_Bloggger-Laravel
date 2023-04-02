@@ -8,6 +8,8 @@ use App\Http\Controllers\PopularPostsController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Dashboard\AdminCategoryController;
 use App\Http\Controllers\Dashboard\DashboardPostsController;
+use App\Http\Controllers\Dashboard\DashboardRatingsController;
+use App\Http\Controllers\Dashboard\DahsboardBookmarks;
 use App\Http\Controllers\Dashboard\LandingDashboardController;
 
 /*
@@ -34,11 +36,14 @@ Route::name('dashboard.')->prefix('dashboard')->middleware(['auth:web'])->group(
     // function route helper
     Route::get('/posts/checkSlug', [DashboardPostsController::class, 'checkSlug'])->name('posts.checkSlug');
     Route::get('/categories/checkSlug', [AdminCategoryController::class, 'checkSlug'])->name('categories.checkSlug');
+    Route::get('/bookmarks', [DahsboardBookmarks::class, 'index'])->name('bookmarks.index');
+    Route::delete('/bookmarks/post/{bookmarks:id}', [DahsboardBookmarks::class, 'destroy'])->name('bookmarks.destroy');
     Route::get('/account/setting/{users:id}', [LandingDashboardController::class, 'edit'])->name('account.setting');
     Route::put('/account/setting/{users:id}', [LandingDashboardController::class, 'update'])->name('account.update');
     Route::put('/account/setting/changes_password/{users:id}', [LandingDashboardController::class, 'updatePassword'])->name('account.change');
 
     // resource route
+    Route::resource('ratings', DashboardRatingsController::class)->middleware('auth');
     Route::resource('posts', DashboardPostsController::class)->middleware('auth');
     Route::resource('categories', AdminCategoryController::class)->middleware('admin');
 });
@@ -47,6 +52,7 @@ Route::get('/', [HomeController::class, 'index']);
 Route::get('/home', [HomeController::class, 'search'])->name('home.search');
 Route::get('/home/post/detail/{posts:slug}', [HomeController::class, 'detail'])->name('home.post.detail');
 Route::post('/rating/comment', [HomeController::class, 'ratingComment'])->name('rating.comment')->middleware('auth');
+Route::post('/bookmark/add', [HomeController::class, 'addBookmark'])->name('add.bookmark')->middleware('auth');
 
 Route::get('/about', function () {
     return view('pages.users.about');
