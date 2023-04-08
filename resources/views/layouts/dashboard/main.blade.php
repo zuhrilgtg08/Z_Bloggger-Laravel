@@ -53,8 +53,6 @@
       <script src="{{ asset('admin/js/bootstrap.bundle.min.js') }}"></script>
       <script src="{{ asset('admin/js/scripts.js') }}"></script>
       <script src="{{ asset('admin/js/Chart.min.js') }}"></script>
-      <script src="{{ asset('admin/assets/demo/chart-area-demo.js') }}"></script>
-      <script src="{{ asset('admin/assets/demo/chart-bar-demo.js') }}"></script>
       <script src="{{ asset('admin/js/simple-datatables@latest.js') }}"></script>
       <script src="{{ asset('admin/js/datatables-simple-demo.js') }}"></script>
       <script src="{{ asset('admin/js/trix.js') }}" type="text/javascript"></script>

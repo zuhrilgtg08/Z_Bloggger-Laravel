@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('b_user_id');
             $table->foreignId('b_post_id');
-            $table->softDeletes();
             $table->timestamps();
         });
     }

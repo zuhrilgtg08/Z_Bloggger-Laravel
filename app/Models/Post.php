@@ -16,7 +16,7 @@ class Post extends Model
 {
     use HasFactory, Sluggable, Traits, SoftDeletes;
     protected $guarded = ['id'];
-    protected $with = ['category', 'author', 'rating_comments'];
+    protected $with = ['category', 'author', 'rating_comments', 'bookmarks'];
 
     public function Category()
     {

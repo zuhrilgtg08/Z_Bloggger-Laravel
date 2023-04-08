@@ -13,6 +13,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
+
+            @if (session()->has('deleted'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ session('deleted') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
         </div>
 
         <div class="col-lg-12 mt-3">

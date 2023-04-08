@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bookmarks;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
@@ -117,14 +118,21 @@ class HomeController extends Controller
 
         if(Auth::guest()) {
             $reviews = RatingComments::where('post_id', $id)->get();
+            $bookmark = Bookmarks::where('b_post_id', $id)->latest()->first();
         } else {
             $reviews = RatingComments::where('post_id', $id)
                     ->where('user_id', Auth::user()->id)->get();
+
+            $bookmark = Bookmarks::where([
+                ['b_post_id', $id],
+                ['b_user_id', Auth::user()->id],
+            ])->latest()->first();
         }
 
         return view('pages.users.landing_home.detail', [
             'data' => $data,
-            'reviews' => $reviews
+            'reviews' => $reviews,
+            'bookmark' => $bookmark
         ]);
     }
 
@@ -155,6 +163,11 @@ class HomeController extends Controller
 
     public function addBookmark(Request $request)
     {
-        dd($request->all());
+       Bookmarks::create([
+        'b_post_id' => $request->b_post_id,
+        'b_user_id' => Auth::user()->id,
+       ]);
+
+       return redirect()->back()->with('success', 'Berhasil Ditambahkan!');
     }
 }

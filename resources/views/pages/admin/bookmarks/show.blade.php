@@ -1,4 +1,4 @@
-@extends('layouts.dashboard.main', ['sbMaster' => true, 'sbActive' => 'master.rating'])
+@extends('layouts.dashboard.main', ['sbMaster' => true, 'sbActive' => 'master.archived'])
 
 @section('styles')
     <style>
@@ -11,40 +11,36 @@
 
 @section('content')
     <div class="col-lg m-3">
-        <a href="{{ route('dashboard.ratings.index') }}" class="btn btn-primary">
+        <a href="{{ route('dashboard.bookmarks.index') }}" class="btn btn-primary">
             <i class="fa-solid fa-arrow-left"></i>
             Kembali
         </a>
     </div>
     <div class="row my-3 justify-content-center">
-        <div class="col-lg-4 col-xl-4">
-            <div class="card shadow border-0 h-100">
-                <div class="row g-0">
-                    @if ($post->image)
-                        <img src="{{ asset('storage/' . $post->image) }}" alt="images-post" 
-                            class="img-fluid card-img-top" />
-                    @else
-                        <img src="https://source.unsplash.com/1200x400?{{ $post->category->name }}" alt="{{ $post->category->name }}"
-                            class="img-fluid card-img-top" />
-                    @endif
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="fw-bolder card-title text-success">{{ $post->title }}</h5>
-                            <p class="card-text">
-                                {{ $post->excerpt }}
-                            </p>
-                        </div>
-                    </div>
+        <div class="col-lg-5 col-xl-5">
+            <div class="card shadow border-0 my-4">
+                @if ($row->image)
+                    <img src="{{ asset('storage/' . $row->image) }}" alt="images-post" class="img-fluid card-img-top" />
+                @else
+                    <img src="{{ asset('images/404.png') }}" alt="{{ $row->category->name }}" class="img-fluid card-img-top" />
+                @endif
+                <div class="card-body">
+                    <h5 class="fw-bolder card-title text-success">{{ $row->title }}</h5>
+                    <h6 class="text-base">By : <span class="text-primary">{{ $row->author->name }}</span></h6>
+                    <h6 class="text-base">Category : <span class="text-danger">{{ $row->category->name }}</span></h6>
+                    <p class="card-text">
+                        {!! $row->body !!}
+                    </p>
                 </div>
             </div>
         </div>
-        <div class="col-lg-8 col-xl-8">
+        <div class="col-lg-7 col-xl-7">
             <div class="card shadow border-0 my-4">
                 <div class="card-body scroll">
                     <h3 class="fw-normal text-danger">Comments Section : </h3>
                     @php $no = 1; @endphp
-                    @if (!$rating->isEmpty())
-                        @foreach ($rating as $data)
+                    @if (!$row->rating_comments->isEmpty())
+                        @foreach ($row->rating_comments as $data)
                             <div class="border border-1 border-secondary mb-2"></div>
                             <p class="card-text text-success fw-normal">User : {{ $data->user->email }} ({{ $no++ }})</p>
                             <p class="card-text">Rating : {{ $data->like_value }}

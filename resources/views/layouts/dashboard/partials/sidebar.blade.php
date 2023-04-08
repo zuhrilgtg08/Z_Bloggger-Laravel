@@ -19,22 +19,22 @@
                     <a class="nav-link {{ isset($sbActive) && $sbActive === 'master.posts' ? 'active' : '' }}" 
                         href="{{ route('dashboard.posts.index') }}"><div class="sb-nav-link-icon"><i class="fa-solid fa-folder"></i></div> Data Posts
                     </a>
+                    <a class="nav-link {{ isset($sbActive) && $sbActive === 'master.postTrashed' ? 'active' : '' }}" 
+                        href="{{ route('dashboard.trashed.index') }}"><div class="sb-nav-link-icon"><i class="fa-solid fa-trash"></i></div> Post Trashed
+                    </a>
                     <a class="nav-link {{ isset($sbActive) && $sbActive === 'master.rating' ? 'active' : '' }}" 
                         href="{{ route('dashboard.ratings.index') }}"><div class="sb-nav-link-icon"><i class="fa-solid fa-heart"></i></div> Data Ratings
                     </a>
-                    <a class="nav-link {{ isset($sbActive) && $sbActive === 'master.archived' ? 'active' : '' }}" href="">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-bookmark"></i></div> Data Bookmarks
-                    </a>
-                    <a class="nav-link {{ isset($sbActive) && $sbActive === 'master.postTrashed' ? 'active' : '' }}" href="">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-trash"></i></div> Post Trashed
+                    <a class="nav-link {{ isset($sbActive) && $sbActive === 'master.archived' ? 'active' : '' }}" 
+                        href="{{ route('dashboard.bookmarks.index') }}"><div class="sb-nav-link-icon"><i class="fa-solid fa-bookmark"></i></div> Data Bookmarks
                     </a>
                     @can('admin')
-                    <a class="nav-link {{ isset($sbActive) && $sbActive === 'master.categories' ? 'active' : '' }}" 
-                        href="{{ route('dashboard.categories.index') }}"><div class="sb-nav-link-icon"><i class="fa-solid fa-layer-group"></i></div> Data Categories
-                    </a>
-                    <a class="nav-link {{ isset($sbActive) && $sbActive === 'master.users' ? 'active' : '' }}" 
-                        href=""><div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div> Data Users
-                    </a>
+                        <a class="nav-link {{ isset($sbActive) && $sbActive === 'master.categories' ? 'active' : '' }}" 
+                            href="{{ route('dashboard.categories.index') }}"><div class="sb-nav-link-icon"><i class="fa-solid fa-layer-group"></i></div> Data Categories
+                        </a>
+                        <a class="nav-link {{ isset($sbActive) && $sbActive === 'master.users' ? 'active' : '' }}" 
+                            href="{{ route('dashboard.users.index') }}"><div class="sb-nav-link-icon"><i class="fa-solid fa-users"></i></div> Data Users
+                        </a>
                     @endcan
                 </nav>
             </div>

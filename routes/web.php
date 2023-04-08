@@ -6,11 +6,13 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PopularPostsController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Dashboard\DashboardUsersController;
+use App\Http\Controllers\Dashboard\DahsboardBookmarks;
 use App\Http\Controllers\Dashboard\AdminCategoryController;
 use App\Http\Controllers\Dashboard\DashboardPostsController;
 use App\Http\Controllers\Dashboard\DashboardRatingsController;
-use App\Http\Controllers\Dashboard\DahsboardBookmarks;
 use App\Http\Controllers\Dashboard\LandingDashboardController;
+use App\Http\Controllers\Dashboard\DashboardTrashedPostsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,12 +39,19 @@ Route::name('dashboard.')->prefix('dashboard')->middleware(['auth:web'])->group(
     Route::get('/posts/checkSlug', [DashboardPostsController::class, 'checkSlug'])->name('posts.checkSlug');
     Route::get('/categories/checkSlug', [AdminCategoryController::class, 'checkSlug'])->name('categories.checkSlug');
     Route::get('/bookmarks', [DahsboardBookmarks::class, 'index'])->name('bookmarks.index');
+    Route::get('/bookmarks/show/{bookmarks:id}', [DahsboardBookmarks::class, 'show'])->name('bookmarks.show');
     Route::delete('/bookmarks/post/{bookmarks:id}', [DahsboardBookmarks::class, 'destroy'])->name('bookmarks.destroy');
+    Route::get('/trashed', [DashboardTrashedPostsController::class, 'index'])->name('trashed.index');
+    Route::delete('/trashed/permanent/{posts:id}', [DashboardTrashedPostsController::class, 'destroy'])->name('trashed.destroy');
+    Route::delete('/trashed/permanent', [DashboardTrashedPostsController::class, 'destroyAll'])->name('trashed.destroy.all');
+    Route::get('/trashed/restore/one/{posts:id}', [DashboardTrashedPostsController::class, 'restore'])->name('trashed.restore');
+    Route::get('/trashed/restore/all', [DashboardTrashedPostsController::class, 'restoreAll'])->name('trashed.restore.all');
     Route::get('/account/setting/{users:id}', [LandingDashboardController::class, 'edit'])->name('account.setting');
     Route::put('/account/setting/{users:id}', [LandingDashboardController::class, 'update'])->name('account.update');
     Route::put('/account/setting/changes_password/{users:id}', [LandingDashboardController::class, 'updatePassword'])->name('account.change');
 
     // resource route
+    Route::resource('users', DashboardUsersController::class)->middleware('auth');
     Route::resource('ratings', DashboardRatingsController::class)->middleware('auth');
     Route::resource('posts', DashboardPostsController::class)->middleware('auth');
     Route::resource('categories', AdminCategoryController::class)->middleware('admin');

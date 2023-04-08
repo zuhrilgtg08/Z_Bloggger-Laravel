@@ -1,13 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Dashboard;
-use App\Models\Post;
-use Illuminate\Http\Request;
-use App\Models\RatingComments;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 
-class DashboardRatingsController extends Controller
+use App\Models\User;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
+class DashboardUsersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,28 +15,9 @@ class DashboardRatingsController extends Controller
      */
     public function index()
     {
-        $ratings = Post::with('rating_comments')->where('user_id', Auth::user()->id)
-                            ->latest()->get();
-
-        $row = $ratings->map(function ($query) {
-            $rating = RatingComments::where([
-                ['post_id', '=', $query->id],
-            ])->get();
-            if ($rating->count() == 0) {
-                $query->like_value = 0;
-            } else {
-                $first = $rating->sum('like_value') / $rating->count();
-                $query->like_value = $first;
-            }
-
-            return $query;
-        });
-
-        $data = $row->filter(function ($value) {
-            return $value->like_value >= 1;
-        });
-
-        return view('pages.admin.ratings.index', ['data' => $data]);
+        return view('pages.admin.allUser.index', [
+            'users' => User::where('is_admin', false)->get()
+        ]);
     }
 
     /**
@@ -69,11 +49,8 @@ class DashboardRatingsController extends Controller
      */
     public function show($id)
     {
-        return view('pages.admin.ratings.show',[
-            'post' => Post::where('id', $id)->first(),
-            'rating' => RatingComments::where('post_id', $id)
-                    ->get(['like_value', 'comment', 'user_id'])
-        ]);
+        $user = User::findOrFail($id);
+        return view('pages.admin.allUser.show', compact('user'));
     }
 
     /**
@@ -107,7 +84,6 @@ class DashboardRatingsController extends Controller
      */
     public function destroy($id)
     {
-        RatingComments::where('post_id', $id)->delete();
-        return redirect()->route('dashboard.ratings.index')->with('delete', 'The rating this post has been Deleted!');
+        //
     }
 }

@@ -45,21 +45,28 @@
 @endsection
 
 @section('container')
-    <a href="/" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i> Kembali</a>
+    <a href="/" class="btn btn-primary my-1"><i class="fa-solid fa-arrow-left"></i> Kembali</a>
     <div class="col-lg float-end">
         <form action="{{ route('add.bookmark') }}" method="POST" class="d-inline">
             @csrf
             <input type="hidden" value="{{ $data->id }}" name="b_post_id" />
-            <button type="submit" class="btn btn-dark {{ (auth()->guest()) ? 'd-none' : '' }} lock-post">
-                <i class="fa-solid fa-bookmark" style="color: #e4f0e6;"></i> Add Bookmark
-            </button>
-        </form>
 
+            @if ($bookmark != null)
+                <button type="button" class="btn btn-secondary {{ (auth()->guest()) ? 'd-none' : '' }} disabled">
+                    <i class="fa-solid fa-bookmark" style="color: #e4f0e6;"></i> This Saved
+                </button>
+            @else
+                <button type="button" class="btn btn-dark {{ (auth()->guest()) ? 'd-none' : '' }} lock-post">
+                    <i class="fa-regular fa-bookmark" style="color: #e4f0e6;"></i> Add Bookmark
+                </button>
+            @endif
+        </form>
 
         <button type="button" class="btn btn-success {{ (auth()->guest()) ? 'd-none' : '' }}" data-bs-toggle="modal" data-bs-target="#modal-rating">
             <i class="fa-solid fa-star text-warning"></i> Add Rating
         </button>
     </div>
+
     @if (session()->has('success'))
         <div class="alert alert-success col-md-6 my-3 alert-dismissible fade show" role="alert">
             {{ session('success') }}
@@ -170,17 +177,20 @@
 @section('script')
     <script type="text/javascript">
     $(document).ready(function () {
-        // $('.lock-post').click(function(event) {
-        //     event.preventDefault();
-            
-        //     Swal.fire({
-        //         position: 'center',
-        //         icon: 'success',
-        //         title: 'This Post Has Been Added!',
-        //         showConfirmButton: false,
-        //         timer: 1500
-        //     })
-        // })
+        $('.lock-post').click(function(event) {
+            event.preventDefault();
+            var form = $(this).closest("form");
+            form.submit();
+            setTimeout(() => {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'This Post Has Been Added!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }, 1000);
+        })
     });
     </script>
 @endsection
